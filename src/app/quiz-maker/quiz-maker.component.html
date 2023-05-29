@@ -1,0 +1,73 @@
+<form (ngSubmit)="createQuiz(heroForm, 5)" #heroForm="ngForm" class="myForm">
+<div class="container-flex" *ngIf="macro_categorie && sotto_categorie">
+  <!---categoria-->
+    <div>
+      <app-select-autocomplete
+      [id]="'categorySelect'"
+      [(ngModel)]="formQuiz.category" 
+      #category="ngModel"
+      [items]="macro_categorie"
+      [items_filtered]="macro_categorie"
+      name="category"
+      [required]="true"
+      [placeholder]="'Select Category'"
+      (emettiValore)="caricaSottoCategorie($event)"
+      >       
+      </app-select-autocomplete>
+    </div>
+   <!-- <select [(ngModel)]="formQuiz.category" #category="ngModel" name="category" id="categorySelect" required (ngModelChange)="caricaSottoCategorie(category.value)">
+      <option  value="" disabled selected>Select category</option>
+      <option [value]="i" *ngFor="let macroCategoria of macro_categorie; let i = index">
+        {{macroCategoria.nome}}
+      </option>
+    </select>-->
+
+
+<!--sottocategoria-->
+    <div *ngIf="sotto_categorie_view && sotto_categorie_view.length > 0">
+      <app-select-autocomplete
+      [id]="'subCategory'"
+      [(ngModel)]="formQuiz.subCategory" 
+      #subCategory="ngModel"
+      [items]="sotto_categorie_view"
+      [items_filtered]="sotto_categorie_view"
+      name="subCategory"
+      [required]="true"
+      [placeholder]="'Select Sub Category'"
+      (emettiValore)="settaValoreSottocategoria($event)"
+      >       
+      </app-select-autocomplete>
+    </div>
+
+  <!--  <div *ngIf="sotto_categorie_view">
+      <select [(ngModel)]="formQuiz.subCategory" #subCategory="ngModel" name="subCategory" id="subCategory" required>
+        <option  value="" disabled selected>Select sub category</option>
+        <option [value]="sottoCategoria.id" *ngFor="let sottoCategoria of sotto_categorie_view">
+          {{sottoCategoria.nome}}
+        </option>
+      </select>
+    </div>-->
+
+  <!---difficolta-->
+    <div>
+        <select [(ngModel)]="formQuiz.difficulty" #difficulty name="difficulty" id="difficultySelect" required>
+          <option  value="" disabled selected>Select difficulty</option>
+          <option>Easy</option>
+          <option>Medium</option>
+          <option>Hard</option>
+        </select>
+    </div>
+  <!---difficolta-->
+
+  
+<div>
+  <button [disabled]="heroForm.invalid" type="submit" class="primary" id="createBtn">Create</button>
+</div>
+
+
+
+</div>
+</form>
+<div>
+   <app-quiz [questions]="questions" (changeQuestion)="cambiaDomanda($event)"></app-quiz>
+</div>

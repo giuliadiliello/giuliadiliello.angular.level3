@@ -1,0 +1,37 @@
+
+.elemento {
+    width: 100%;
+}
+.elemento:hover {
+    background-color: rgba(158, 158, 158, 0.18);
+}
+
+ul {
+    padding: 0;
+    margin: 0;
+    max-height: 240px;
+    overflow-y: auto;
+    li {
+      position: relative;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      cursor: pointer;
+      a {
+        padding: 14px 15px;
+        display: block;
+        text-decoration: none;
+        color: #333333;
+        cursor: pointer;
+        font-size: 15px;
+      }
+      &:hover {
+        background-color: rgba(158, 158, 158, 0.18);
+      }
+    }
+  }
+
+input {
+    border-radius: 6px;
+    height: 46px;
+}

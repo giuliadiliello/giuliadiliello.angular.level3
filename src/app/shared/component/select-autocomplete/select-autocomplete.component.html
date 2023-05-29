@@ -1,0 +1,39 @@
+
+
+
+<input type="text" 
+    [(ngModel)]="value" 
+    [id]="id"
+    [required]="required"
+    (ngModelChange)="filtra($event)" 
+    (click)="nascondiFiltered = !nascondiFiltered" autocomplete="off" 
+    #select
+    [placeholder]="placeholder">
+
+<div [hidden]="nascondiFiltered">
+  <ul #filteredListElement>
+    <li *ngFor="let item of items_filtered; let i = index" class="item">
+      <div (click)="settaValore(item)">
+        <ng-container
+          *ngTemplateOutlet="itemTemplate; context: { item: item.nome | highlight: item.nome : select.value }">
+        </ng-container>
+    </div>
+    </li>
+    <div *ngIf="notFound">
+      <ng-container
+      *ngTemplateOutlet="notFoundTemplate; context: { notFound: 'Nessun elemento trovato'}">
+    </ng-container>
+  </div>
+  </ul>
+</div>
+
+  <!------->
+  <ng-template #itemTemplate let-item="item">
+    <div class="elemento">
+    <a style="cursor: pointer;" [innerHTML]="item"></a>
+  </div>
+  </ng-template>
+  <ng-template #notFoundTemplate let-notFound="notFound">
+    <div [innerHTML]="notFound"></div>
+  </ng-template>
+  <!----------->
