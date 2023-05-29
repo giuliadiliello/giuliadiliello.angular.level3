@@ -1,4 +1,4 @@
-import {AfterContentInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ContentChild, ElementRef, EventEmitter, inject, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
+import {Component, EventEmitter, inject, Input, Output} from '@angular/core';
 import {Question} from '../data.models';
 import {QuizService} from '../quiz.service';
 import {Router} from '@angular/router';
@@ -17,6 +17,7 @@ export class QuizComponent {
   /** È possibile scambiare solo una domanda per quiz, 
    * il che significa che una volta che l'utente fa clic su uno di questi pulsanti, 
    * rimuovere tutti i pulsanti "cambia domanda". */
+  @Input()
   nascondiPulsanti = false;
 
   /** Informo il componente padre di cambiare la domanda selezionata */
@@ -38,10 +39,6 @@ export class QuizComponent {
  * Mando date informazione al padre per aggiornare la domanda cliccata
  */
   sonoStatoCliccato(index: number) {
-    setTimeout(() => {
-      this.nascondiPulsanti = true;
-    }, 500);
-    
     this.changeQuestion.emit(index);
   }
 }

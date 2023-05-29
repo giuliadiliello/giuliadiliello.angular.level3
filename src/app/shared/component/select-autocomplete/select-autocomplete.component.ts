@@ -79,6 +79,7 @@ export class SelectAutocompleteComponent implements ControlValueAccessor {
   }
 
   settaValore(obj: any) {
+    console.log('settaValore');
     console.log(obj);
     this.value = obj.nome;
     this.filtra(obj.nome);
@@ -89,6 +90,7 @@ export class SelectAutocompleteComponent implements ControlValueAccessor {
 
 
   filtra(text: string) {
+    this.onChange(text);
     if (this.nascondiFiltered) {
       this.nascondiFiltered = false;
     }

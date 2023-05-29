@@ -14,7 +14,7 @@ import { NgForm } from '@angular/forms';
 export class QuizMakerComponent implements OnDestroy {
 
   private onDestroy$ = new Subject();
-
+  nascondiPulsanti = false;
 
   /** template driven form */
   formQuiz: FormQuizMaker = {
@@ -74,7 +74,7 @@ export class QuizMakerComponent implements OnDestroy {
 /** 
 * @summary Restituisce la lista delle cateorie divise in macrocategorie e sottocategorie
 * @param {Category[]} categorie - array delle categorie api_category.php
-* @return {Categorie} oggett Categorie contenente listaMacroCategorie: MacroCategorie[] + listaSottocategorie: SottoCategorie[];
+* @return {Categorie} oggetto Categorie contenente listaMacroCategorie: MacroCategorie[] + listaSottocategorie: SottoCategorie[];
 */
 getMacroCategoryAndSubCategory(categorie: Category[]): Categorie {
   let datoDiRitorno: Categorie = {
@@ -104,7 +104,7 @@ getMacroCategoryAndSubCategory(categorie: Category[]): Categorie {
         };
         datoDiRitorno.listaSottocategorie.push(sottocategoria);
         } 
-          //sese non ho ancora la macrocategoria  creo sia macrocategoria che sotto categoria
+          //se non ho ancora la macrocategoria  creo sia macrocategoria che sotto categoria
         else {
      
           listaId.push(element.id);
@@ -179,7 +179,9 @@ getMacroCategoryAndSubCategory(categorie: Category[]): Categorie {
 /** 
 * chiamo il servizio createQuiz specificando il numero di quiz da restituire
 */
-  createQuiz(heroForm: NgForm, numeroDomande: number): void {
+  createQuiz(quizForm: NgForm, numeroDomande: number): void {
+    console.log(quizForm);
+    this.nascondiPulsanti = false;
    let categoriaSelezionata = this.macro_categorie.find(x => x.id === this.idCategoriaSelezionata);
    if (categoriaSelezionata){
     this.idForQuestion = categoriaSelezionata?.listaIdSottocategorie[0];
@@ -191,11 +193,12 @@ getMacroCategoryAndSubCategory(categorie: Category[]): Categorie {
    }
 
 
-   let difficulty = heroForm.form.get('difficulty')?.value;
+   let difficulty = quizForm.form.get('difficulty')?.value;
 
    if (this.idForQuestion)
-   this.quizService.createQuiz(this.idForQuestion?.toString(), difficulty as Difficulty, numeroDomande).subscribe( res => {
-    this.questions = res;
+      this.quizService.createQuiz(this.idForQuestion?.toString(), difficulty as Difficulty, numeroDomande)
+      .pipe(takeUntil(this.onDestroy$)).subscribe( res => {
+      this.questions = res;
    });
   }
 
@@ -206,9 +209,11 @@ getMacroCategoryAndSubCategory(categorie: Category[]): Categorie {
   cambiaDomanda(indice: number) {
     let difficulty = this.formQuiz.difficulty;
     if (this.idForQuestion)
-    this.quizService.createQuiz(this.idForQuestion?.toString(), difficulty as Difficulty, 1).subscribe((res: Question[]) => {
+    this.quizService.createQuiz(this.idForQuestion?.toString(), difficulty as Difficulty, 1).
+    pipe(takeUntil(this.onDestroy$)).subscribe((res: Question[]) => {
         this.questionsToChange = res[0];
         this.questions[indice] = this.questionsToChange;
+        this.nascondiPulsanti = true;
     })
   }
 }

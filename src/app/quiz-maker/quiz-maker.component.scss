@@ -9,13 +9,20 @@
     border: transparent;
 }
 
-
-
-
 select {
   border-radius: 6px;
   height: 46px;
 }
+
+select:invalid {
+  border-color: var(--input-border-color) !important;
+  border-left: 5px solid #a94442 !important; /* red */
+}
+
+select:valid {
+  border-left: 5px solid #42A948; /* green */
+}
+
 
 .primary {
   border-radius: 6px;

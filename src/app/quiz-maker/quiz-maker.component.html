@@ -1,4 +1,4 @@
-<form (ngSubmit)="createQuiz(heroForm, 5)" #heroForm="ngForm" class="myForm">
+<form (ngSubmit)="createQuiz(quizForm, 5)" #quizForm="ngForm" class="myForm">
 <div class="container-flex" *ngIf="macro_categorie && sotto_categorie">
   <!---categoria-->
     <div>
@@ -14,6 +14,7 @@
       (emettiValore)="caricaSottoCategorie($event)"
       >       
       </app-select-autocomplete>
+     
     </div>
    <!-- <select [(ngModel)]="formQuiz.category" #category="ngModel" name="category" id="categorySelect" required (ngModelChange)="caricaSottoCategorie(category.value)">
       <option  value="" disabled selected>Select category</option>
@@ -37,6 +38,7 @@
       (emettiValore)="settaValoreSottocategoria($event)"
       >       
       </app-select-autocomplete>
+  
     </div>
 
   <!--  <div *ngIf="sotto_categorie_view">
@@ -56,12 +58,13 @@
           <option>Medium</option>
           <option>Hard</option>
         </select>
+    
     </div>
   <!---difficolta-->
 
   
 <div>
-  <button [disabled]="heroForm.invalid" type="submit" class="primary" id="createBtn">Create</button>
+  <button [disabled]="quizForm.invalid" type="submit" class="primary" id="createBtn">Create</button>
 </div>
 
 
@@ -69,5 +72,5 @@
 </div>
 </form>
 <div>
-   <app-quiz [questions]="questions" (changeQuestion)="cambiaDomanda($event)"></app-quiz>
+   <app-quiz [questions]="questions" [nascondiPulsanti]="nascondiPulsanti" (changeQuestion)="cambiaDomanda($event)"></app-quiz>
 </div>
